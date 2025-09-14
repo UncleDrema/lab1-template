@@ -5,6 +5,8 @@ services:
       target: final
     ports:
       - 3000:3000
+    environment:
+      DATABASE_URL: postgres://program:test@db:5432/persons
     depends_on:
      db:
        condition: service_healthy
@@ -19,7 +21,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: postgres
+      POSTGRES_DB: persons
+    ports:
+      - 5432:5432
     expose:
       - 5432
     healthcheck:
