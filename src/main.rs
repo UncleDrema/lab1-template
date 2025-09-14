@@ -1,0 +1,19 @@
+use axum::{
+    Router,
+    routing::{get, post, patch, delete},
+    http::StatusCode,
+    Json
+};
+
+async fn health_check() -> &'static  str {
+    "OK"
+}
+
+#[tokio::main]
+async fn main() {
+    let app = Router::new()
+        .route("/health", get(health_check));
+
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    axum::serve(listener, app).await.unwrap();
+}
