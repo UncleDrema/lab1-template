@@ -22,5 +22,11 @@ docker compose -f "$COMPOSE_FILE" pull
 echo "Bringing services up..."
 docker compose -f "$COMPOSE_FILE" up --build -d
 
+echo "Waiting for services to stabilize..."
+for i in {1..10}; do
+  echo "  ... $i/10"
+  sleep 1
+done
+
 echo "Services status:"
 docker compose -f "$COMPOSE_FILE" ps
