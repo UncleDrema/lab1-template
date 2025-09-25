@@ -42,7 +42,7 @@ jobs:
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
           # опционально: можно задать URL (если у вас в build.gradle указан)
           DOCKER_REGISTRY_URL: "https://index.docker.io/v1/"
-        run: ./gradlew --no-daemon bootBuildImage -PimageName=${{ secrets.DOCKERHUB_USERNAME }}/person-service:${{ github.sha }}
+        run: ./gradlew --no-daemon bootBuildImage --imageName=${{ secrets.DOCKERHUB_USERNAME }}/person-service:${{ github.sha }}
 
       - name: Push image to Docker Hub
         run: |
