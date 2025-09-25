@@ -13,6 +13,10 @@ services:
       - ./postgres/:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
-
+  person-service:
+    image: uncledrema/person-service:latest
+    container_name: person-service
+    ports:
+      - "9017:8089"
 volumes:
   db-data:

@@ -46,9 +46,14 @@ jobs:
 
       - name: Push image to Docker Hub
         run: |
-          IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/person-service:${{ github.sha }}
-          echo "Pushing $IMAGE"
-          docker push $IMAGE
+          IMAGE_SHA=${{ secrets.DOCKERHUB_USERNAME }}/person-service:${{ github.sha }}
+          IMAGE_LATEST=${{ secrets.DOCKERHUB_USERNAME }}/person-service:latest
+          echo "Tagging $IMAGE_SHA as $IMAGE_LATEST"
+          docker tag $IMAGE_SHA $IMAGE_LATEST
+          echo "Pushing $IMAGE_SHA"
+          docker push $IMAGE_SHA
+          echo "Pushing $IMAGE_LATEST"
+          docker push $IMAGE_LATEST
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
