@@ -10,8 +10,8 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./postgres/:/docker-entrypoint-initdb.d/
-    ports:
-      - "5432:5432"
+    networks:
+      - person-net
   person-service:
     image: uncledrema/person-service:latest
     container_name: person-service
@@ -19,5 +19,10 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/persons"
     ports:
       - "9017:9017"
+    networks:
+      - person-net
 volumes:
   db-data:
+
+networks:
+  person-net:
