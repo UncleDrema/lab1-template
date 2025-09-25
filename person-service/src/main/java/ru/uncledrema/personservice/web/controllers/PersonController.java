@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/persons/")
+@RequestMapping("/api/v1/persons")
 @Validated
 @Tag(name = "Пользователи")
 class PersonController {
