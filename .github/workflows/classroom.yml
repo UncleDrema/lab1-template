@@ -55,6 +55,38 @@ jobs:
           echo "Pushing $IMAGE_LATEST"
           docker push $IMAGE_LATEST
 
+      - name: Copy docker-compose.yml to remote host
+        uses: appleboy/scp-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          source: "docker-compose.yml"
+          target: "~/deploy/"
+
+      - name: Copy ci scripts to remote host
+        uses: appleboy/scp-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          source: "ci/*.sh"
+          target: "~/deploy/ci/"
+
+      - name: Run pull & update on remote host
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          script: |
+            set -euo pipefail
+            cd ~/deploy || exit 1
+            ./ci/pull_and_update.sh docker-compose.yml
+
       - name: Run API Tests
         uses: matt-ball/newman-action@master
         with:
