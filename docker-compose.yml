@@ -1,4 +1,3 @@
-version: "3"
 services:
   postgres:
     image: library/postgres:15
@@ -16,7 +15,9 @@ services:
   person-service:
     image: uncledrema/person-service:latest
     container_name: person-service
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/persons"
     ports:
-      - "9017:8089"
+      - "9017:9017"
 volumes:
   db-data:
